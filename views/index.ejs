@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Todo App</title>
+
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="adminlte/plugins/fontawesome-free/css/all.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="adminlte/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="adminlte/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="adminlte/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="adminlte/dist/css/adminlte.min.css">
+</head>
+  <body class="hold-transition">
+    <div class="wrapper ">
+
+    </div>
+    <!-- /.content-wrapper -->
+      <!-- Content Wrapper. Contains page content -->
+      <div class="container pt-5">
+        <!-- Main content -->
+        <section class="content ">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-header">
+                    <h3 class="card-title">My Todo</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="card card-primary">
+                      <div class="card-header">
+                        <h3 class="card-title">Add Activity</h3>
+                        <div class="card-tools">
+                          <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      <form action="/" method="POST">
+                        <div class="card-body">
+                          <div class="form-group">
+                            <label for="title">Name</label>
+                            <input type="text" id="title" name="title" class="form-control">
+                          </div>
+                          <div class="form-group">
+                            <label for="desc">Description</label>
+                            <textarea id="desc" name="desc" class="form-control" rows="4"></textarea>
+                          </div>
+                          <div class="form-group">
+                            <label for="priority">Priority</label>
+                            <select id="priority" name="priority" class="form-control custom-select">
+                              <option selected="selected">Urgent</option>
+                              <option>Important</option>
+                              <option>Not Important</option>
+                            </select>
+                          </div>  
+                        </div>
+                        <div class="card-footer">
+                          <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                      </form>
+                      <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                    <table id="example2" class="table table-bordered table-hover">
+                      <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                        <% for(let i=0; i < todo.length; i++){ %>
+                          <tr data-widget="expandable-table" aria-expanded="false">
+                            <td><%= todo[i].title %></td>
+                            <td><%= todo[i].desc %></td>
+                            <td><%= todo[i].priority %></td>
+                            <td>
+                              <% if(todo[i].status === 'Pending'){ %>
+                                <span class="badge bg-danger"><%= todo[i].status %></span>
+                              <% } %>  
+                              <% if(todo[i].status === 'In Progres'){ %>
+                                <span class="badge bg-warning"><%= todo[i].status %></span>
+                              <% }  %>  
+                              <% if(todo[i].status === 'Completed'){ %>
+                                <span class="badge bg-success"><%= todo[i].status %></span>
+                              <% } %>  
+                            </td>
+                            <td>
+                              <form action="/<%= todo[i]._id %>?_method=DELETE" method="POST">
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></i>Delete</button>
+                              </form>
+                            </td>
+                          </tr>
+                          <tr class="expandable-body">
+                            <td colspan="5">
+                              <form action="/<%= todo[i]._id %>?_method=PUT" method="POST">
+                                <div class="card-body">
+                                  <div class="form-group">
+                                    <label for="title">Name</label>
+                                    <input type="text" id="title" name="title" value="<%= todo[i].title %>" placeholder="<%= todo[i].title %>" class="form-control">
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="desc">Description</label>
+                                    <textarea id="desc" name="desc" value="<%= todo[i].desc %>" placeholder="<%= todo[i].desc %>" class="form-control" rows="4"></textarea>
+                                  </div>
+                                  <div class="form-group">
+                                    <label for="priority">Priority</label>
+                                    <select id="priority" name="priority" class="form-control custom-select">
+                                      <option selected="selected">Urgent</option>
+                                      <option>Important</option>
+                                      <option>Not Important</option>
+                                    </select>
+                                  </div>  
+                                  <div class="form-group">
+                                    <label for="status">Status</label>
+                                    <select id="status" name="status" class="form-control custom-select">
+                                      <option selected="selected">Pending</option>
+                                      <option>In Progres</option>
+                                      <option>Completed</option>
+                                    </select>
+                                  </div>  
+                                </div>
+                                <div class="card-footer">
+                                  <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                              </form>
+                            </td>
+                          </tr>
+                        <% } %> 
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <!-- /.content-wrapper -->
+    </div>
+    <!-- ./wrapper -->
+
+  <!-- jQuery -->
+  <script src="adminlte/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- DataTables  & Plugins -->
+  <script src="adminlte/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="adminlte/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="adminlte/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="adminlte/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="adminlte/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="adminlte/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="adminlte/plugins/jszip/jszip.min.js"></script>
+  <script src="adminlte/plugins/pdfmake/pdfmake.min.js"></script>
+  <script src="adminlte/plugins/pdfmake/vfs_fonts.js"></script>
+  <script src="adminlte/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="adminlte/dist/js/adminlte.min.js"></script>
+  <!-- Page specific script -->
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+      $('#example2').DataTable({
+        "paging": true,
+        "lengthChange": false,
+        "searching": false,
+        "ordering": true,
+        "info": true,
+        "autoWidth": false,
+        "responsive": true,
+      });
+    });
+  </script>
+  </body>
+</html>
